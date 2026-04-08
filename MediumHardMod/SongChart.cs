@@ -1,9 +1,9 @@
 ﻿namespace MediumHardMod;
 
-internal class SongChart
-{
-    public string? Group { get; set; }
-    public int Difficulty { get; set; }
-    public int DifficultyLevel { get; set; }
-    public string[] Notes { get; set; } = Array.Empty<string>();
-}
+public record SongChart
+(
+    string? Group,
+    int Difficulty,
+    int DifficultyLevel,
+    string[] Notes
+);

@@ -38,19 +38,19 @@ internal static class ReplaceNotes
 
     public static void AddExtraDifficulty(Song song, SongChart mediumChart)
     {
-        if (song is null) throw new ArgumentNullException(nameof(song));
-        if (mediumChart is null) throw new ArgumentNullException(nameof(mediumChart));
+        ArgumentNullException.ThrowIfNull(song);
+        ArgumentNullException.ThrowIfNull(mediumChart);
 
-        SongChart extraChart = new()
-        {
-            Difficulty = (int) Difficulty.Extra,
-            Notes = new string[mediumChart.Notes?.Length ?? 0],
-            DifficultyLevel = mediumChart.DifficultyLevel + 1,
-            Group = mediumChart.Group
-        };
+        SongChart extraChart = new
+        (
+            mediumChart.Group,
+            (int) Difficulty.Extra,
+            mediumChart.DifficultyLevel + 1,
+            new string[mediumChart.Notes?.Length ?? 0]
+        );
 
         // Remove any existing extra charts
-        var existingCharts = song.SongCharts.Where(x => x.Difficulty == 10 && x.Group == extraChart.Group).ToList();
+        var existingCharts = song.SongCharts.Where(x => x.Difficulty == 10 && x.Group == extraChart.Group);
         foreach (var chart in existingCharts)
         {
             song.SongCharts.Remove(chart);
