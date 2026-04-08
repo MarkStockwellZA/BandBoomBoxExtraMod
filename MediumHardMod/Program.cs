@@ -1,9 +1,10 @@
 ﻿namespace MediumHardMod;
 using System.Text.Json;
+using static ReplaceNotes;
 
 public static class Program
 {
-    public static bool OverwriteExistingCharts { get; set; } = false;
+    private static bool _overwriteExistingCharts;
     public static void Main(string[] args)
     {
         if (args.Length == 0 || string.IsNullOrWhiteSpace(args[0]) || !Directory.Exists(args[0]))
@@ -17,13 +18,12 @@ public static class Program
             return;
         }
 
-        if (args.Contains("-Overwrite"))
-            OverwriteExistingCharts = true;
+        if (args.Contains("-Overwrite")) _overwriteExistingCharts = true;
 
         ProcessFolder(args[0]);
     }
 
-    public static void ProcessFolder(string folder)
+    private static void ProcessFolder(string folder)
     {
         foreach (var subFolder in Directory.GetDirectories(folder))
             ProcessFolder(subFolder);
@@ -35,7 +35,7 @@ public static class Program
         }
     }
 
-    public static (bool, string) ProcessFile(FileInfo inputFile)
+    private static (bool, string) ProcessFile(FileInfo inputFile)
     {
         var songText = File.ReadAllText(inputFile.FullName);
         var song = JsonSerializer.Deserialize(songText, SongJsonContext.Default.Song);
@@ -51,13 +51,13 @@ public static class Program
         if (mediumChart is null)
             return (false, $"No medium song chart found in file \"{inputFile.Name}\"");
 
-        if (mediumChart.Notes is null || mediumChart.Notes.Length == 0)
+        if (mediumChart.Notes.Length == 0)
             return (false, $"No medium notes found in file \"{inputFile.Name}\"");
 
-        if (song.HasChart( Difficulty.Extra) && !OverwriteExistingCharts)
+        if (song.HasChart(Difficulty.Extra) && !_overwriteExistingCharts)
             return (false, $"Extra chart already exists in file \"{inputFile.Name}\"");
 
-        ReplaceNotes.AddExtraDifficulty(song, mediumChart);
+        AddExtraDifficulty(song, mediumChart);
 
         var result = JsonSerializer.Serialize(song, typeof(Song), SongJsonContext.Default);
         File.WriteAllText(inputFile.FullName, result);

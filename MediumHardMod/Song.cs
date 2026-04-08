@@ -16,7 +16,7 @@ internal class Song
     public decimal Length { get; set; }
     public int BeatsPerMeasure { get; set; }
     public Dictionary<double, string> Sections { get; set; } = new();
-    public List<SongChart> SongCharts { get; set; } = new();
+    public List<SongChart> SongCharts { get; set; } = [];
 
     public bool HasChart(Difficulty difficulty)
     {

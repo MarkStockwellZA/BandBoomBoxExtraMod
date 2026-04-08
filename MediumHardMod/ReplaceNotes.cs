@@ -15,8 +15,8 @@ internal static class ReplaceNotes
         ['B'] = '8'
     };
 
-    private static char ReplaceChar(char x) => 
-        _replacements.ContainsKey(x) ? _replacements[x] : x;
+    private static char ReplaceChar(char x) => _replacements.GetValueOrDefault(x, x);
+
     private static string? ReplaceSubNote(string subNote) => 
         $"{subNote[0]}{ReplaceChar(subNote[1])}{ReplaceChar(subNote[2])}{subNote[3]}";
 
@@ -24,7 +24,7 @@ internal static class ReplaceNotes
     {
         var result = new StringBuilder();
 
-        foreach (var subNote in note.Split(' '))
+        foreach (var subNote in note.Split(' ').AsSpan())
         {
             if (result.Length != 0) result.Append(' ');
 
@@ -50,7 +50,9 @@ internal static class ReplaceNotes
         );
 
         // Remove any existing extra charts
-        var existingCharts = song.SongCharts.Where(x => x.Difficulty == 10 && x.Group == extraChart.Group);
+        var existingCharts = song.SongCharts
+            .Where(x => x.Difficulty == 10 && x.Group == extraChart.Group);
+        
         foreach (var chart in existingCharts)
         {
             song.SongCharts.Remove(chart);
