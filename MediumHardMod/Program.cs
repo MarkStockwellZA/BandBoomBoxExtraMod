@@ -18,7 +18,7 @@ public static class Program
             return;
         }
 
-        if (args.Contains("-Overwrite")) _overwriteExistingCharts = true;
+        if (args.Contains("-Overwrite", StringComparer.OrdinalIgnoreCase)) _overwriteExistingCharts = true;
 
         ProcessFolder(args[0]);
     }
@@ -51,7 +51,7 @@ public static class Program
         if (mediumChart is null)
             return (false, $"No medium song chart found in file \"{inputFile.Name}\"");
 
-        if (mediumChart.Notes.Length == 0)
+        if (mediumChart.Notes is not { Length: > 0 })
             return (false, $"No medium notes found in file \"{inputFile.Name}\"");
 
         if (song.HasChart(Difficulty.Extra) && !_overwriteExistingCharts)

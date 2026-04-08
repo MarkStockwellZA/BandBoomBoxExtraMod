@@ -1,9 +1,10 @@
 ﻿namespace MediumHardMod;
+using System.Collections.Immutable;
 
 public record SongChart
 (
     string? Group,
     int Difficulty,
     int DifficultyLevel,
-    string[] Notes
+    ImmutableArray<string> Notes
 );
