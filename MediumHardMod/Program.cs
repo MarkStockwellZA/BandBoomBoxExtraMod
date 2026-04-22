@@ -7,20 +7,26 @@ public static class Program
     private static bool _overwriteExistingCharts;
     public static void Main(string[] args)
     {
-        if (args.Length == 0 || string.IsNullOrWhiteSpace(args[0]) || !Directory.Exists(args[0]))
-        {
-            Output.WriteLine(true, """ 
-                Please supply a valid input directory as the first argument.
+        // if (args.Length == 0 || string.IsNullOrWhiteSpace(args[0]) || !Directory.Exists(args[0]))
+        // {
+        //     Output.WriteLine(true, """ 
+        //         Please supply a valid input directory as the first argument.
             
-                Example:
-                .\MediumHardMod C:\\BandBoomboxSongs
-            """);
-            return;
-        }
+        //         Example:
+        //         .\MediumHardMod C:\\BandBoomboxSongs
+        //     """);
+        //     return;
+        // }
 
-        if (args.Contains("-Overwrite", StringComparer.OrdinalIgnoreCase)) _overwriteExistingCharts = true;
+        //if (args.Contains("-Overwrite", StringComparer.OrdinalIgnoreCase)) _overwriteExistingCharts = true;
 
-        ProcessFolder(args[0]);
+        //ProcessFolder(args[0]);
+
+        var before = DateTime.Now;
+        _overwriteExistingCharts = true;
+        ProcessFolder("/home/mark/example_input");
+        var after = DateTime.Now;
+        Console.WriteLine($"Finished processing in {(after - before).TotalSeconds} seconds");
     }
 
     private static void ProcessFolder(string folder)

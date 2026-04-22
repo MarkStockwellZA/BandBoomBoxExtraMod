@@ -51,7 +51,8 @@ internal static class ReplaceNotes
 
         // Remove any existing extra charts
         var existingCharts = song.SongCharts
-            .Where(x => x.Difficulty == 10 && x.Group == extraChart.Group);
+            .Where(x => x.Difficulty == 10 && x.Group == extraChart.Group)
+            .ToList();
         
         foreach (var chart in existingCharts)
         {
