@@ -22,18 +22,19 @@ internal static class ReplaceNotes
 
     private static string ReplaceAllNotes(string note, ref bool replace)
     {
-        var result = new StringBuilder();
+        string result = string.Empty;
+        //var result = new StringBuilder();
 
-        foreach (var subNote in note.Split(' ').AsSpan())
+        foreach (var subNote in note.Split(' '))
         {
-            if (result.Length != 0) result.Append(' ');
+            if (result.Length != 0) result+=' ';
 
-            result.Append(replace ? ReplaceSubNote(subNote) : subNote);
+            result+=replace ? ReplaceSubNote(subNote) : subNote;
 
             if (subNote != "0000") replace = !replace;
         }
 
-        return result.ToString();
+        return result;
     }
 
     public static void AddExtraDifficulty(Song song, SongChart mediumChart)

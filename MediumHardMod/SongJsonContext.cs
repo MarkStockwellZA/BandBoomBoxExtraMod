@@ -2,6 +2,6 @@
 
 namespace MediumHardMod;
 
-[JsonSerializable(typeof(Song))]
-[JsonSourceGenerationOptions(WriteIndented = true)]
-internal partial class SongJsonContext : JsonSerializerContext { }
+// [JsonSerializable(typeof(Song))]
+// [JsonSourceGenerationOptions]
+// internal partial class SongJsonContext : JsonSerializerContext { }
